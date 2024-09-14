@@ -10,7 +10,10 @@ const passport = require('passport')
 const { initializePassport } = require('./config/passport.config.js')
 const sessionsRouter = require('./routes/api/sessions.router.js')
 const pruebasRouter = require('./routes/api/pruebas.router.js')
+const { handleError } = require('./utils/errors/middleware/handleError.js')
+const { suma } = require('suma69955')
 
+console.log(suma(1,2,3,4,5,1005))
 const app = express()
 const PORT = process.env.PORT || 8080
 
@@ -32,14 +35,15 @@ app.set('view engine', 'hbs')
 // urbase/users
 connectDB()
 
-
-app.use('/pruebas', pruebasRouter)
 app.use('/', viewsRouter)
 app.use('/api/users', usersRouter)
+app.use('/api/sessions', sessionsRouter)
+app.use('/pruebas', pruebasRouter)
 
+app.use(handleError)
 
 // url-base/api/productos -> json
-
+// crear funcón para menejo de errores
 
 app.listen(PORT, err => {
     if (err) console.log('Error: ', err)
